@@ -101,3 +101,31 @@ header h1,
   background: #000300;
   transform: none;
 }
+
+.cell.winning {
+  background: linear-gradient(
+    
+    #b7950b 0%,
+    #ffcc33 15%,
+    #f9d976 30%,
+    #f5c71a 45%,
+    #f9d976 60%,
+    #ffcc33 75%,
+    #b7950b 100%
+  );
+  animation: winPulse 0.5s ease-in-out;
+}
+
+.cell.winning:hover {
+  background: linear-gradient(
+    to right,
+    #b7950b 0%,
+    #ffcc33 15%,
+    #f9d976 30%,
+    #f5c71a 45%,
+    #f9d976 60%,
+    #ffcc33 75%,
+    #b7950b 100%
+  );
+  transform: none;
+}

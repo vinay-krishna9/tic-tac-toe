@@ -36,6 +36,11 @@ function selectCell(index) {
 
   playMove(index, GameState.currentPlayer);
 
+  if (checkWinner()) {
+    currentPlayerDisplay.textContent = `Player ${GameState.winner} Wins! 🌟`;
+    return;
+  }
+
   switchPlayer();
 }
 
@@ -45,12 +50,39 @@ function playMove(index, player) {
   cell.textContent = GameState.board[index];
   cell.classList.add(GameState.board[index]);
   cell.classList.add("disabled");
-  console.log(GameState.board);
 }
 
 function switchPlayer() {
   GameState.currentPlayer = GameState.currentPlayer === "X" ? "O" : "X";
   currentPlayerDisplay.textContent = `Current Turn: Player ${GameState.currentPlayer}`;
+}
+
+function checkWinner() {
+  for (let combination of WINNING_COMBINATIONS) {
+    const [a, b, c] = combination;
+
+    console.group("Checking combination:", a, b, c);
+    console.log(GameState.board[a], GameState.board[b], GameState.board[c]);
+    console.groupEnd();
+
+    if (
+      GameState.board[a] !== "" &&
+      GameState.board[a] === GameState.board[b] &&
+      GameState.board[a] === GameState.board[c]
+    ) {
+      cells[a].classList.add("winning");
+      cells[b].classList.add("winning");
+      cells[c].classList.add("winning");
+
+      cells[a].classList.remove("disabled");
+      cells[b].classList.remove("disabled");
+      cells[c].classList.remove("disabled");
+
+      GameState.winner = GameState.board[a];
+      return true;
+    }
+  }
+  return false;
 }
 
 function initializeGame() {
