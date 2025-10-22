@@ -23,7 +23,7 @@ const cells = document.querySelectorAll(".cell");
 const currentPlayerDisplay = document.getElementById("playerTurn");
 const pvpBtn = document.getElementById("singlePlayerBtn");
 const pvcBtn = document.getElementById("compPlayerBtn");
-const resetBtn = document.getElementById("resetBtn");
+const endBtn = document.getElementById("endBtn");
 
 function selectCell(index) {
   if (
@@ -94,11 +94,31 @@ function checkDraw() {
   return GameState.board.every((cell) => cell !== "");
 }
 
+function endGame() {
+  console.log("Ending game ...");
+
+  GameState.board = ["", "", "", "", "", "", "", "", ""];
+  GameState.currentPlayer = "X";
+  GameState.isGameActive = false;
+  GameState.winner = null;
+
+  modeSelectorSection.style.display = "block";
+  gameContainerSection.style.display = "none";
+  currentPlayerDisplay.textContent = "";
+
+  cells.forEach((cell) => {
+    cell.textContent = "";
+    cell.classList.remove("X", "O", "disabled", "winning");
+  });
+}
+
 function initializeGame() {
   console.log("Init game");
 
   pvpBtn.addEventListener("click", () => startGame("PVP"));
   pvcBtn.addEventListener("click", () => startGame("PVC"));
+
+  endBtn.addEventListener("click", () => endGame());
 
   cells.forEach((cell, index) => {
     cell.addEventListener("click", () => selectCell(index));
