@@ -34,18 +34,23 @@ function selectCell(index) {
     return;
   }
 
-  playMove(index);
+  playMove(index, GameState.currentPlayer);
+
+  switchPlayer();
 }
 
-function playMove(index) {
-  GameState.board[index] = GameState.currentPlayer;
-  GameState.currentPlayer = GameState.currentPlayer === "X" ? "O" : "X";
-  currentPlayerDisplay.textContent = `Current Turn: Player ${GameState.currentPlayer}`;
+function playMove(index, player) {
+  GameState.board[index] = player;
   const cell = cells[index];
   cell.textContent = GameState.board[index];
   cell.classList.add(GameState.board[index]);
   cell.classList.add("disabled");
   console.log(GameState.board);
+}
+
+function switchPlayer() {
+  GameState.currentPlayer = GameState.currentPlayer === "X" ? "O" : "X";
+  currentPlayerDisplay.textContent = `Current Turn: Player ${GameState.currentPlayer}`;
 }
 
 function initializeGame() {
