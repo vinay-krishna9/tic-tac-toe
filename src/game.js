@@ -41,6 +41,11 @@ function selectCell(index) {
     return;
   }
 
+  if (checkDraw()) {
+    currentPlayerDisplay.textContent = "It's a Draw! 🤝";
+    return;
+  }
+
   switchPlayer();
 }
 
@@ -83,6 +88,10 @@ function checkWinner() {
     }
   }
   return false;
+}
+
+function checkDraw() {
+  return GameState.board.every((cell) => cell !== "");
 }
 
 function initializeGame() {
