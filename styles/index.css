@@ -84,3 +84,20 @@ header h1,
 .mode-container .mode-btns button:active {
   transform: translateY(0);
 }
+
+.cell.X {
+  color: #2f59bc;
+}
+
+.cell.O {
+  color: #f36107;
+}
+
+.cell.disabled {
+  cursor: not-allowed;
+}
+
+.cell.disabled:hover {
+  background: #000300;
+  transform: none;
+}

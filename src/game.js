@@ -25,6 +25,29 @@ const pvpBtn = document.getElementById("singlePlayerBtn");
 const pvcBtn = document.getElementById("compPlayerBtn");
 const resetBtn = document.getElementById("resetBtn");
 
+function selectCell(index) {
+  if (
+    !GameState.isGameActive ||
+    GameState.board[index] !== "" ||
+    GameState.winner
+  ) {
+    return;
+  }
+
+  playMove(index);
+}
+
+function playMove(index) {
+  GameState.board[index] = GameState.currentPlayer;
+  GameState.currentPlayer = GameState.currentPlayer === "X" ? "O" : "X";
+  currentPlayerDisplay.textContent = `Current Turn: Player ${GameState.currentPlayer}`;
+  const cell = cells[index];
+  cell.textContent = GameState.board[index];
+  cell.classList.add(GameState.board[index]);
+  cell.classList.add("disabled");
+  console.log(GameState.board);
+}
+
 function initializeGame() {
   console.log("Init game");
 
@@ -32,7 +55,7 @@ function initializeGame() {
   pvcBtn.addEventListener("click", () => startGame("PVC"));
 
   cells.forEach((cell, index) => {
-    cell.addEventListener("click", () => console.log(index));
+    cell.addEventListener("click", () => selectCell(index));
   });
 }
 
