@@ -1,0 +1,89 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f6f6f6;
+  min-height: 100vh;
+  font-family: "Rockin Rocker", sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+header {
+  margin-bottom: 20px;
+}
+
+header h1,
+.mode-container h2,
+.game-container h4 {
+  color: #10e878;
+  background-image: linear-gradient(45deg, #149c64 23%, #d2c105 75%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.game-container {
+  margin-top: 15px;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 25px auto;
+  gap: 10px;
+  max-width: 320px;
+}
+
+.cell {
+  aspect-ratio: 1;
+  background: #000300;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.cell:hover {
+  background: #000a00;
+  transform: scale(1.05);
+}
+
+.mode-container .mode-btns button,
+.game-container .ctrl-btns button {
+  background-color: #00371b;
+  color: #f6f6f6;
+  border: none;
+  padding: 10px 50px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  transition: all 0.3s ease;
+}
+
+.mode-container .mode-btns button:hover,
+.game-container .ctrl-btns button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.mode-container .mode-btns button:active {
+  transform: translateY(0);
+}
+
+/* .hidden {
+  display: none;
+} */
