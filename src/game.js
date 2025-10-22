@@ -24,3 +24,33 @@ const currentPlayerDisplay = document.getElementById("playerTurn");
 const pvpBtn = document.getElementById("singlePlayerBtn");
 const pvcBtn = document.getElementById("compPlayerBtn");
 const resetBtn = document.getElementById("resetBtn");
+
+function initializeGame() {
+  console.log("Init game");
+
+  pvpBtn.addEventListener("click", () => startGame("PVP"));
+  pvcBtn.addEventListener("click", () => startGame("PVC"));
+
+  cells.forEach((cell, index) => {
+    cell.addEventListener("click", () => console.log(index));
+  });
+}
+
+function startGame(mode) {
+  GameState.gameMode = mode;
+  GameState.isGameActive = true;
+  GameState.currentPlayer = "X";
+
+  modeSelectorSection.style.display = "none";
+  gameContainerSection.style.display = "block";
+
+  updateTurnDisplay();
+}
+
+function updateTurnDisplay() {
+  if (GameState.gameMode === "PVP") {
+    currentPlayerDisplay.textContent = `Current Turn: Player ${GameState.currentPlayer}`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initializeGame);

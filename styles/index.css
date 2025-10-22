@@ -33,6 +33,7 @@ header h1,
 
 .game-container {
   margin-top: 15px;
+  display: none;
 }
 
 .game-board {
@@ -83,7 +84,3 @@ header h1,
 .mode-container .mode-btns button:active {
   transform: translateY(0);
 }
-
-/* .hidden {
-  display: none;
-} */
