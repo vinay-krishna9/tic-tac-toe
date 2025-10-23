@@ -42,10 +42,6 @@ function checkWinner() {
   for (let combination of WINNING_COMBINATIONS) {
     const [a, b, c] = combination;
 
-    console.group("Checking combination:", a, b, c);
-    console.log(GameState.board[a], GameState.board[b], GameState.board[c]);
-    console.groupEnd();
-
     if (
       GameState.board[a] !== "" &&
       GameState.board[a] === GameState.board[b] &&
@@ -71,8 +67,6 @@ function checkDraw() {
 }
 
 function endGame() {
-  console.log("Ending game ...");
-
   GameState.board = ["", "", "", "", "", "", "", "", ""];
   GameState.currentPlayer = "X";
   GameState.isGameActive = false;
@@ -88,6 +82,43 @@ function endGame() {
   });
 }
 
+function tryToWin() {
+  // First, try to win
+  for (let combination of WINNING_COMBINATIONS) {
+    const [a, b, c] = combination;
+    const cells = [GameState.board[a], GameState.board[b], GameState.board[c]];
+
+    // Check if computer can win
+    if (
+      cells.filter((cell) => cell === "O").length === 2 &&
+      cells.includes("")
+    ) {
+      return combination[cells.indexOf("")];
+    }
+  }
+
+  // Second, try to block player
+  for (let combination of WINNING_COMBINATIONS) {
+    const [a, b, c] = combination;
+    const cells = [GameState.board[a], GameState.board[b], GameState.board[c]];
+
+    // Check if player is about to win
+    if (
+      cells.filter((cell) => cell === "X").length === 2 &&
+      cells.includes("")
+    ) {
+      return combination[cells.indexOf("")];
+    }
+  }
+
+  // take center if available
+  if (GameState.board[4] === "") {
+    return 4;
+  }
+
+  return null;
+}
+
 function computerMove() {
   if (!GameState.isGameActive || GameState.winner) return;
 
@@ -97,8 +128,16 @@ function computerMove() {
 
   if (availableCells.length === 0) return;
 
-  const randomIndex = Math.floor(Math.random() * availableCells.length);
-  const cellIndex = availableCells[randomIndex];
+  // const randomIndex = Math.floor(Math.random() * availableCells.length);
+  // const cellIndex = availableCells[randomIndex];
+
+  let cellIndex = tryToWin();
+
+  // If no strategic move, pick random
+  if (cellIndex === null) {
+    cellIndex =
+      availableCells[Math.floor(Math.random() * availableCells.length)];
+  }
 
   playMove(cellIndex, "O");
 
@@ -164,8 +203,6 @@ function startGame(mode) {
 }
 
 function initializeGame() {
-  console.log("Init game");
-
   pvpBtn.addEventListener("click", () => startGame("PVP"));
   pvcBtn.addEventListener("click", () => startGame("PVC"));
 
