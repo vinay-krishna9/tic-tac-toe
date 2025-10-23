@@ -25,30 +25,6 @@ const pvpBtn = document.getElementById("singlePlayerBtn");
 const pvcBtn = document.getElementById("compPlayerBtn");
 const endBtn = document.getElementById("endBtn");
 
-function selectCell(index) {
-  if (
-    !GameState.isGameActive ||
-    GameState.board[index] !== "" ||
-    GameState.winner
-  ) {
-    return;
-  }
-
-  playMove(index, GameState.currentPlayer);
-
-  if (checkWinner()) {
-    currentPlayerDisplay.textContent = `Player ${GameState.winner} Wins! 🌟`;
-    return;
-  }
-
-  if (checkDraw()) {
-    currentPlayerDisplay.textContent = "It's a Draw! 🤝";
-    return;
-  }
-
-  switchPlayer();
-}
-
 function playMove(index, player) {
   GameState.board[index] = player;
   const cell = cells[index];
@@ -112,17 +88,68 @@ function endGame() {
   });
 }
 
-function initializeGame() {
-  console.log("Init game");
+function computerMove() {
+  if (!GameState.isGameActive || GameState.winner) return;
 
-  pvpBtn.addEventListener("click", () => startGame("PVP"));
-  pvcBtn.addEventListener("click", () => startGame("PVC"));
+  let availableCells = GameState.board
+    .map((cell, index) => (cell === "" ? index : null))
+    .filter((index) => index !== null);
 
-  endBtn.addEventListener("click", () => endGame());
+  if (availableCells.length === 0) return;
 
-  cells.forEach((cell, index) => {
-    cell.addEventListener("click", () => selectCell(index));
-  });
+  const randomIndex = Math.floor(Math.random() * availableCells.length);
+  const cellIndex = availableCells[randomIndex];
+
+  playMove(cellIndex, "O");
+
+  if (checkWinner()) {
+    currentPlayerDisplay.textContent = `Computer Wins! 🌟`;
+    return;
+  }
+
+  if (checkDraw()) {
+    currentPlayerDisplay.textContent = "It's a Draw! 🤝";
+    return;
+  }
+
+  switchPlayer();
+}
+
+function selectCell(index) {
+  if (
+    !GameState.isGameActive ||
+    GameState.board[index] !== "" ||
+    GameState.winner
+  ) {
+    return;
+  }
+
+  playMove(index, GameState.currentPlayer);
+
+  if (checkWinner()) {
+    currentPlayerDisplay.textContent = `Player ${GameState.winner} Wins! 🌟`;
+    return;
+  }
+
+  if (checkDraw()) {
+    currentPlayerDisplay.textContent = "It's a Draw! 🤝";
+    return;
+  }
+
+  switchPlayer();
+
+  if (GameState.gameMode === "PVC" && GameState.currentPlayer === "O") {
+    setTimeout(computerMove, 500);
+  }
+}
+
+function updateTurnDisplay() {
+  if (GameState.gameMode === "PVP") {
+    currentPlayerDisplay.textContent = `Current Turn: Player ${GameState.currentPlayer}`;
+  } else {
+    currentPlayerDisplay.textContent =
+      GameState.currentPlayer === "X" ? "Your Turn (X)" : "Computer's Turn (O)";
+  }
 }
 
 function startGame(mode) {
@@ -136,10 +163,17 @@ function startGame(mode) {
   updateTurnDisplay();
 }
 
-function updateTurnDisplay() {
-  if (GameState.gameMode === "PVP") {
-    currentPlayerDisplay.textContent = `Current Turn: Player ${GameState.currentPlayer}`;
-  }
+function initializeGame() {
+  console.log("Init game");
+
+  pvpBtn.addEventListener("click", () => startGame("PVP"));
+  pvcBtn.addEventListener("click", () => startGame("PVC"));
+
+  endBtn.addEventListener("click", () => endGame());
+
+  cells.forEach((cell, index) => {
+    cell.addEventListener("click", () => selectCell(index));
+  });
 }
 
 document.addEventListener("DOMContentLoaded", initializeGame);
