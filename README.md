@@ -2,12 +2,11 @@
 
 A interactive Tic-Tac-Toe game built with JavaScript.
 
-## ToDo
+## Features
 
 - 1v1 local multiplayer
 - Play against computer AI
 - responsive UI
-- Score tracking
 
 ## Development
 
